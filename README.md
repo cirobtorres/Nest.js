@@ -25,3 +25,5 @@ obs.:
 a) pg: postgres driver for typeorm;
 
 b) @nestjs/config: enviroment variables.
+
+IMPORTANT: read router.http

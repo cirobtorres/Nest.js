@@ -1,0 +1,2 @@
+export const forgetToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzA4MzkwOTgyLCJleHAiOjE3MDg5OTU3ODIsImF1ZCI6InVzZXJzIiwiaXNzIjoiZm9yZ2V0In0.G4KIW0muu9lqRUYB9h9Vty6dRQtupUnBtF23AP1Ps0I";

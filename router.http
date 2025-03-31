@@ -1,0 +1,179 @@
+# --------------------------------------------------------------------------------------
+# ---------------------==========USE-THIS-AS-A-GUIDELINE==========---------------------
+# --------------------------------------------------------------------------------------
+
+# This file is a "REST Client" extension file ready-to-use all features of this app.
+# You may instead use Insomnia, Postman, Curl or whatever else best suits your needs.
+# In that case, this might serve as a guideline for the HTTP calls from this REST API
+
+### LIST (READ ALL) - ADMIN (role 2)
+
+GET http://localhost:3000/users
+Content-Type: application/json
+Authorization: bearer TOKEN_HERE
+
+### RETRIEVE (READ ONE) - ADMIN (role 2)
+### /users/id
+
+GET http://localhost:3000/users/1
+Content-Type: application/json
+Authorization: bearer TOKEN_HERE
+
+### CREATE
+### By passing the role security
+### Here you may create users with role 2 (adm)
+
+POST http://localhost:3000/users
+Content-Type: application/json
+Authorization: bearer TOKEN_HERE
+
+{
+    "name": "Mary Sue",
+    "email": "marysue@email.com",
+    "password": "P@ssw0rd",
+    "role": 2
+}
+
+### PUT
+### name + email + password (at least these three)
+### /users/id
+
+PUT http://localhost:3000/users/1
+Content-Type: application/json
+Authorization: bearer TOKEN_HERE
+
+{
+    "name": "John Doe",
+    "email": "johndoe@email.com",
+    "password": "P@ssw0rd",
+    "birthAt": "2001-01-01"
+}
+
+### PATH
+### /users/id
+
+PATCH http://localhost:3000/users/1
+Content-Type: application/json
+Authorization: bearer TOKEN_HERE
+# 1 = user
+# 2 = admin
+
+{
+    "birthAt": "2001-01-01",
+    "role": 2
+}
+
+### DELETE
+### /users/id
+
+DELETE http://localhost:3000/users/1
+Content-Type: application/json
+Authorization: bearer TOKEN_HERE
+
+### Auth------------------------------------------------------------
+### REGISTER 
+### At least: name + email + password
+
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "johndoe@email.com",
+    "password": "P@ssw0rd"
+}
+
+### LOGIN -> accessToken
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "johndoe@email.com",
+    "password": "P@ssw0rd"
+}
+
+### ME -> verify accessToken
+
+POST http://localhost:3000/auth/me
+Content-Type: application/json
+Authorization: bearer TOKEN_HERE
+
+### FORGET
+POST http://localhost:3000/auth/forget
+Content-Type: application/json
+
+{
+    "email": "johndoe@email.com"
+}
+
+### RESET
+POST http://localhost:3000/auth/reset
+Content-Type: application/json
+
+{
+    "password": "P@ssw0rd",
+    "token": "TOKEN_HERE"
+}
+
+### Express/Multer------------------------------------------------------------
+### FINGLE FILE
+# "name" must be the same than that passed to "FileInterceptor" decorator in "auth.controller" 
+
+POST http://localhost:3000/auth/file
+Content-Type: multipart/form-data; boundary=boundary
+Authorization: bearer TOKEN_HERE
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="image-1.jpg"
+Content-Type: image/jpg
+
+< "C:\your\path\to\the\image-1.jpg"
+--boundary--
+
+### MULTIPLE FILES
+# "name" must be the same than that passed to "FileInterceptor" decorator in "auth.controller" 
+# Even though there are several files, they must all follow the same name
+
+POST http://localhost:3000/auth/files
+Content-Type: multipart/form-data; boundary=boundary
+Authorization: bearer TOKEN_HERE
+
+--boundary
+Content-Disposition: form-data; name="files"; filename="image-1.jpg"
+Content-Type: image/jpg
+
+< "C:\your\path\to\the\image-1.jpg"
+
+--boundary
+Content-Disposition: form-data; name="files"; filename="image-2.jpg"
+Content-Type: image/jpg
+
+< "C:\your\path\to\the\image-2.jpg"
+--boundary--
+
+### FILE FIELDS
+# "FileFieldsInterceptor" decorator of "auth.controller" receives an object array. 
+# Each objects accepts a name. This name must be the exact same name as the file names
+
+POST http://localhost:3000/auth/files-fields
+Content-Type: multipart/form-data; boundary=boundary
+Authorization: bearer TOKEN_HERE
+
+--boundary
+Content-Disposition: form-data; name="image"; filename="image-1.jpg"
+Content-Type: image/jpg
+
+< "C:\your\path\to\the\image-1.jpg"
+--boundary
+Content-Disposition: form-data; name="documents"; filename="document-1.docx"
+Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+
+< C:\your\path\to\the\document-1.docx
+--boundary
+Content-Disposition: form-data; name="documents"; filename="document-2.docx"
+Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+
+< C:\your\path\to\the\document-2.docx
+--boundary--
